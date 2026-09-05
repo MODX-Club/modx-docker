@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     default-mysql-client \
     gosu \
+    curl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
     pdo_mysql \
@@ -21,8 +22,14 @@ RUN apt-get update && apt-get install -y \
     ftp \
     && rm -rf /var/lib/apt/lists/*
 
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN groupadd -g ${PGID} appgroup || true \
-    && useradd -u ${PUID} -g ${PGID} -m -s /bin/bash appuser || true
+    && useradd -u ${PUID} -g ${PGID} -m -s /bin/bash appuser || true \
+    && mkdir -p /var/www/tmp \
+    && chown appuser:appgroup /var/www/tmp
 
 RUN sed -i "s/user = www-data/user = appuser/" /usr/local/etc/php-fpm.d/www.conf \
     && sed -i "s/group = www-data/group = appgroup/" /usr/local/etc/php-fpm.d/www.conf

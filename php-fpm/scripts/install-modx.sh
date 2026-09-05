@@ -28,6 +28,11 @@ run_as_appuser $SCRIPTS_DIR/05-build-core-transport.sh
 run_as_appuser $SCRIPTS_DIR/06-run-modx-setup.sh
 run_as_appuser $SCRIPTS_DIR/07-patch-modx-config.sh
 
+# Step 8-10: Install MiniShop3 and dependencies
+run_as_appuser $SCRIPTS_DIR/08-clone-packages.sh
+run_as_appuser $SCRIPTS_DIR/09-build-packages.sh
+run_as_appuser $SCRIPTS_DIR/10-install-packages.sh
+
 echo "=========================================="
-echo "MODX installation completed!"
+echo "MODX + MiniShop3 installation completed!"
 echo "=========================================="

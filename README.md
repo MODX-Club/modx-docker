@@ -1,13 +1,14 @@
-# MODX Docker
+# MODX + MiniShop3 Docker
 
-Automated MODX CMS deployment from source in Docker containers.
+Automated MODX CMS + MiniShop3 deployment from source in Docker containers.
 
 ## Features
 
 - **Automatic installation** — no browser wizard required
 - **Ready-to-use environment** — Nginx + PHP-FPM + MySQL + phpMyAdmin
 - **Reproducibility** — single command deploys identical environment
-- **Git-based installation** — fresh code from MODX repository
+- **Git-based installation** — fresh code from GitHub repositories
+- **MiniShop3 included** — pdoTools, VueTools, MiniShop3 built from source
 
 ## Services
 
@@ -69,7 +70,15 @@ If you skip this step, Docker will create it as root and PHP won't be able to wr
 | MODX_ADMIN_USER | Admin login | admin |
 | MODX_ADMIN_PASSWORD | Admin password | admin123 |
 
+## Installed Packages
+
+Built from source (GitHub):
+- **pdoTools** — fast snippets library with Fenom
+- **VueTools** — Vue 3 + PrimeVue for admin interface
+- **MiniShop3** — e-commerce solution for MODX 3
+
 ## Known Issues
 
 - **www directory permissions**: If the `www` directory does not exist when the container is created, Docker will mount it as root. The PHP process will not be able to create files in it. You must create the `www` directory beforehand with the correct user permissions.
 - **Empty www directory required**: You cannot create a non-empty `www` directory beforehand, as the git clone operation will fail if the directory is not empty. Ensure the directory exists but is empty before starting the container.
+- **First build takes time**: Building packages from source requires downloading npm dependencies and compiling Vue components. First run may take 5-10 minutes.
